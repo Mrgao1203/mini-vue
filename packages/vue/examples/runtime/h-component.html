@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../../dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+  <script>
+    const { h } = Vue
+
+    const vnode1 = h('div', 'component 组件')
+
+    const component = {
+      render() {
+        // console.log('%c💢 fuck this', 'color:red', vnode1)
+        // return vnode1
+        return {
+          __v_isVNode: true,
+          type: 'div',
+          children: 'component 组件',
+          shapeFlag: 9
+        }
+      }
+    }
+    const vnode2 = h(component)
+    // const vnode2 = {
+    //   __v_isVNode: true,
+    //   type: component,
+    //   shapeFlag: 4
+    // }
+    console.log('%c💢 fuck this', 'color:red', vnode2)
+    // render(vnode2, document.querySelector('#app'))
+  </script>
+</html>

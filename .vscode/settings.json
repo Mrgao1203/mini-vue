@@ -1,0 +1,13 @@
+{
+  "workbench.colorCustomizations": {
+    "sash.hoverBorder": "#3e3fe6",
+    "statusBar.background": "#1c1dd5",
+    "statusBar.foreground": "#e7e7e7",
+    "statusBarItem.hoverBackground": "#3e3fe6",
+    "statusBarItem.remoteBackground": "#1c1dd5",
+    "statusBarItem.remoteForeground": "#e7e7e7"
+  },
+  "peacock.color": "#1c1dd5",
+  "liveServer.settings.port": 5502,
+  "typescript.tsdk": "node_modules/typescript/lib"
+}

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../../dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+  <script>
+    const { h, Text, Comment, Fragment } = Vue
+
+    const vnodeText = h(Text, '这是一个 text')
+    console.log('%c💢 fuck this', 'color:red', vnodeText)
+    const vnodeComment = h(Comment, '这是一个 Comment')
+    console.log('%c💢 fuck this', 'color:red', vnodeComment)
+    const vnodeFragment = h(Fragment, '这是一个 Fragment')
+    console.log('❓ - file: h-other.html:20 - vnodeFragment:', vnodeFragment)
+  </script>
+</html>
