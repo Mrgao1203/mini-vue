@@ -13,6 +13,7 @@ export interface VNode {
   children: any
   shapeFlag: number
   el?: Element
+  key?: number
 }
 export function createVNode(type: any, props?: any, children?: any): VNode {
   if (props) {
@@ -65,4 +66,8 @@ export function normalizeVNodeChildren(vnode: VNode, children: any) {
   vnode.children = children
 
   vnode.shapeFlag |= type
+}
+
+export function isSameVNodeType(n1: VNode, n2: VNode) {
+  return n1.type === n2.type && n1.key === n2.key
 }

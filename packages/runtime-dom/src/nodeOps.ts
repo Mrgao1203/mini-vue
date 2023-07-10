@@ -7,7 +7,18 @@ export const nodeOps = {
     const el = doc.createElement(tag)
     return el
   },
+  createText: (text: string) => doc.createTextNode(text),
+  createComment: (text: string) => doc.createComment(text),
   setElementText: (el: Element, text: string) => {
     el.textContent = text
+  },
+  setText: (node: Element, text: string) => {
+    node.nodeValue = text
+  },
+  remove: (child: Element) => {
+    const parent = child.parentNode
+    if (parent) {
+      parent.removeChild(child)
+    }
   }
 }
