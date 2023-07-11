@@ -7,7 +7,7 @@ export const nodeOps = {
     const el = doc.createElement(tag)
     return el
   },
-  createText: (text: string) => doc.createTextNode(text),
+  createText: (text: string): any => doc.createTextNode(text),
   createComment: (text: string) => doc.createComment(text),
   setElementText: (el: Element, text: string) => {
     el.textContent = text

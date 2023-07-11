@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../../dist/vue.js"></script>
+    <style>
+      .active {
+        color: red;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app"></div>
+  </body>
+  <script>
+    const { h, render } = Vue
+
+    const component = {
+      data() {
+        return {
+          msg: 'hello component'
+        }
+      },
+      beforeCreate() {
+        console.log('创建前', this.msg)
+      },
+      created() {
+        console.log('创建后', this.msg)
+      },
+      beforeMount() {
+        console.log('挂载前', this.msg)
+      },
+      mounted() {
+        console.log('挂载后', this.msg)
+      },
+      render() {
+        return h('div', this.msg)
+      }
+    }
+
+    const vnode = h(component)
+    console.log('%c🔞 fuck this', 'color:red', vnode)
+    render(vnode, document.querySelector('#app'))
+  </script>
+</html>
