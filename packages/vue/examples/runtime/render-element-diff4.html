@@ -16,7 +16,7 @@
     <div id="app"></div>
   </body>
   <script>
-    // 新节点多余旧节点
+    // 旧节点多余新节点
     const { h, render } = Vue
     const vnode = h('ul', [
       h(
@@ -32,6 +32,13 @@
           key: 2
         },
         'b'
+      ),
+      h(
+        'li',
+        {
+          key: 3
+        },
+        'c'
       )
     ])
     render(vnode, document.querySelector('#app'))
@@ -51,20 +58,6 @@
             key: 2
           },
           'b'
-        ),
-        h(
-          'li',
-          {
-            key: 3
-          },
-          'c'
-        ),
-        h(
-          'li',
-          {
-            key: 4
-          },
-          'd'
         )
       ])
       render(vnode2, document.querySelector('#app'))
