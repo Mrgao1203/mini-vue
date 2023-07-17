@@ -7,6 +7,7 @@ import { transformText } from 'packages/compiler-core/src/transforms/transformTe
 
 export function baseCompile(template: string, options: any = {}) {
   const ast = baseParse(template)
+  console.log('❓ - file: compile.ts:10 - baseCompile - ast:', ast)
   console.log(
     '❓ - file: compile.ts:10 - baseCompile - ast:',
     JSON.parse(JSON.stringify(ast))

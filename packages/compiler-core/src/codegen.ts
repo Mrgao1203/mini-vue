@@ -60,11 +60,15 @@ function genFunctionPreamble(context: any) {
 }
 
 function genNode(node: any, context: any) {
+  console.log('❓ - file: codegen.ts:64 - genNode - node.type:', node.type)
+
   switch (node.type) {
     case NodeTypes.VNODE_CALL:
       genVNodeCall(node, context)
       break
     case NodeTypes.TEXT:
+      console.log(node)
+
       genText(node, context)
       break
 
@@ -76,6 +80,10 @@ function genNode(node: any, context: any) {
       break
     case NodeTypes.COMPOUND_EXPRESSION:
       genCompoundExpression(node, context)
+      break
+    case NodeTypes.ELEMENT:
+      console.log(JSON.stringify(node.codegenNode))
+      genNode(node.codegenNode, context)
       break
   }
 }

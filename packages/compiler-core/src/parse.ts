@@ -96,7 +96,7 @@ function parseElement(context: ParseContent, ancestors: any[]) {
 }
 
 function parseTag(context: ParseContent, type: TagType) {
-  const match: any = /^<\/?([a-z][^\r\n\t\f />]*)/i.exec(context.source)
+  const match = /^<\/?([a-z][^\t\r\n\f />]*)/i.exec(context.source)!
 
   const tag = match[1]
 
@@ -145,7 +145,7 @@ function isEnd(context: ParseContent, ancestors: any) {
   const s = context.source
 
   if (startWith(s, '</')) {
-    for (let i = ancestors.length - 1; i <= 0; i--) {
+    for (let i = ancestors.length - 1; i >= 0; --i) {
       if (startWithEndTagOpen(s, ancestors[i].tag)) {
         return true
       }
