@@ -1,3 +1,4 @@
+import { isString } from '@vue/shared'
 import { NodeTypes } from './ast'
 import { isSingleElementRoot } from './hoistStatic'
 import { TO_DISPLAY_STRING } from './runtimeHelpers'
@@ -89,6 +90,37 @@ function createRootCodegen(root: any) {
     if (isSingleElementRoot(root, child) && child.codegenNode) {
       root.codegenNode = child.codegenNode
       return child.codegenNode
+    }
+  }
+}
+
+export function createStructuralDirectiveTransform(
+  name: string | RegExp,
+  fn: any
+) {
+  const matches = isString(name)
+    ? (n: string) => n === name
+    : (n: string) => name.test(n)
+
+  return (node: any, context: any) => {
+    if (node.type === NodeTypes.ELEMENT) {
+      const { props } = node
+
+      const exitFns: any[] = []
+
+      for (let i = 0; i < props.length; i++) {
+        const prop = props[i]
+        if (prop.type === NodeTypes.DIRECTIVE && matches(prop.name)) {
+          props.splice(i, 1)
+          i--
+          const onExit = fn(node, prop, context)
+          if (onExit) {
+            exitFns.push(onExit)
+          }
+        }
+      }
+
+      return exitFns
     }
   }
 }
