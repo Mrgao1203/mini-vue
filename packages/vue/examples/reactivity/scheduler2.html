@@ -14,21 +14,14 @@
     const obj = reactive({
       name: '1'
     })
-    effect(
-      () => {
-        console.log(obj.name)
-      },
-      {
-        scheduler() {
-          queuePreFlushCb(() => {
-            console.log(obj.name)
-          })
-        }
+    effect(() => {}, {
+      scheduler() {
+        queuePreFlushCb(() => {})
       }
-    )
+    })
     obj.name = '2'
     obj.name = '3'
 
-    // console.log('code end')
+    //
   </script>
 </html>

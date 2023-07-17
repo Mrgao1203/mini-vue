@@ -14,19 +14,11 @@
     const obj = reactive({
       name: '1'
     })
-    effect(
-      (n, o) => {
-        console.log(obj.name)
-      },
-      {
-        scheduler() {
-          setTimeout(() => {
-            console.log(obj.name)
-          }, 0)
-        }
+    effect((n, o) => {}, {
+      scheduler() {
+        setTimeout(() => {}, 0)
       }
-    )
+    })
     obj.name = '2'
-    console.log('code end')
   </script>
 </html>

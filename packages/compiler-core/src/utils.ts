@@ -1,5 +1,5 @@
 import { NodeTypes } from './ast'
-import { CREATE_ELEMENT_VNODE, CREATE_VNODE } from './transformElement'
+import { CREATE_ELEMENT_VNODE, CREATE_VNODE } from './runtimeHelpers'
 
 export function isText(node: any) {
   return node.type === NodeTypes.INTERPOLATION || node.type === NodeTypes.TEXT

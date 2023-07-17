@@ -24,25 +24,17 @@
           msg: 'hello component'
         }
       },
-      beforeCreate() {
-        console.log('创建前', this.msg)
-      },
-      created() {
-        console.log('创建后', this.msg)
-      },
-      beforeMount() {
-        console.log('挂载前', this.msg)
-      },
-      mounted() {
-        console.log('挂载后', this.msg)
-      },
+      beforeCreate() {},
+      created() {},
+      beforeMount() {},
+      mounted() {},
       render() {
         return h('div', this.msg)
       }
     }
 
     const vnode = h(component)
-    console.log('%c🔞 fuck this', 'color:red', vnode)
+
     render(vnode, document.querySelector('#app'))
   </script>
 </html>

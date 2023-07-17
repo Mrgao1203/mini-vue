@@ -1,8 +1,6 @@
 import { isString } from '@vue/shared'
 
 export function patchStyle(el: Element, prev: any, next: any) {
-  console.log(el, prev, next)
-
   const style = (el as HTMLElement).style
   const isCssString = isString(next)
   if (next && !isCssString) {

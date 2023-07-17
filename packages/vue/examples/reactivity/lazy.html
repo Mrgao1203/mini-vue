@@ -18,17 +18,10 @@
       count: 1
     })
 
-    effect(
-      () => {
-        console.log(obj.count)
-      },
-      {
-        lazy: false
-      }
-    )
+    effect(() => {}, {
+      lazy: false
+    })
 
     obj.count = 2
-
-    console.log('code end')
   </script>
 </html>

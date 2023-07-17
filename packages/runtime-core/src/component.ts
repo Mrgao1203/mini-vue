@@ -13,6 +13,10 @@ export const enum LifecycleHooks {
 
 export function createComponentInstance(vnode: any) {
   const type = vnode.type
+  console.log(
+    '❓ - file: component.ts:16 - createComponentInstance - type:',
+    JSON.stringify({ type })
+  )
   const instance = {
     uuid: uuid++,
     vnode,
@@ -27,6 +31,10 @@ export function createComponentInstance(vnode: any) {
     bm: null,
     m: null
   }
+  console.log(
+    '❓ - file: component.ts:34 - createComponentInstance - instance:',
+    JSON.stringify(instance)
+  )
   return instance
 }
 export function setupComponent(instance: any) {
@@ -52,6 +60,10 @@ export function handleSetupResult(instance: any, setupResult: any) {
 
 export function finishComponentSetup(instance: any) {
   const Component = instance.type
+  console.log(
+    '❓ - file: component.ts:63 - finishComponentSetup - Component:',
+    JSON.stringify(Component)
+  )
   if (!instance.render) {
     instance.render = Component.render
   }

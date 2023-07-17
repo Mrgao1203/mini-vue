@@ -4,20 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script src="../../dist/vue.js"></script>
   </head>
-  <body>
-    <div id="app"></div>
-  </body>
+  <body></body>
   <script>
-    const { h } = Vue
+    function render(_ctx) {
+      with (_ctx) {
+      }
+    }
 
-    const vnode = h(
-      'div',
-      {
-        class: 'test'
-      },
-      'hello world'
-    )
+    const data = {
+      msg: 'world'
+    }
+    render.call(data, data)
   </script>
 </html>

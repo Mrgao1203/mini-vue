@@ -1,6 +1,6 @@
 import { isArray, isString } from '@vue/shared'
 import { NodeTypes } from './ast'
-import { helperNameMap } from './transformElement'
+import { TO_DISPLAY_STRING, helperNameMap } from './runtimeHelpers'
 import { getVNodeHelper } from './utils'
 
 const aliasHelper = (s: symbol) => `${helperNameMap[s]}:_${helperNameMap[s]}`
@@ -17,11 +17,12 @@ export function generate(ast: any) {
   const args = ['_ctx', '_cache']
   const signature = args.join(', ')
   push(`function ${functionName}(${signature}) {`)
+  indent()
 
+  push(`with (_ctx) {`)
   indent()
 
   const hasHelpers = ast.helpers.length > 0
-
   if (hasHelpers) {
     push(`const { ${ast.helpers.map(aliasHelper).join(', ')} } = _Vue\n`)
     newLine()
@@ -35,6 +36,9 @@ export function generate(ast: any) {
   } else {
     push('null')
   }
+
+  deindent()
+  push('}')
 
   deindent()
   push('}')
@@ -63,7 +67,42 @@ function genNode(node: any, context: any) {
     case NodeTypes.TEXT:
       genText(node, context)
       break
+
+    case NodeTypes.SIMPLE_EXPRESSION:
+      genExpression(node, context)
+      break
+    case NodeTypes.INTERPOLATION:
+      genInterpolation(node, context)
+      break
+    case NodeTypes.COMPOUND_EXPRESSION:
+      genCompoundExpression(node, context)
+      break
   }
+}
+
+function genCompoundExpression(node: any, context: any) {
+  for (let i = 0; i < node.children.length; i++) {
+    const child = node.children[i]
+    if (isString(child)) {
+      context.push(child)
+    } else {
+      genNode(child, context)
+    }
+  }
+}
+
+function genInterpolation(node: any, context: any) {
+  const { push, helper } = context
+
+  push(`${helper(TO_DISPLAY_STRING)}(`)
+  genNode(node.content, context)
+  push(`)`)
+}
+
+function genExpression(node: any, context: any) {
+  const { content, isStatic } = node
+
+  context.push(isStatic ? JSON.stringify(content) : content)
 }
 
 function genVNodeCall(node: any, context: any) {

@@ -13,11 +13,15 @@
     const { compile, h, render } = Vue
     const template = `<div>hello {{msg}}</div>`
     const renderFn = compile(template)
+    console.log(
+      '❓ - file: compiler-reactive.html:16 - renderFn:',
+      renderFn.toString()
+    )
 
     const component = {
       data() {
         return {
-          mas: 'world'
+          msg: 'world'
         }
       },
       render: renderFn

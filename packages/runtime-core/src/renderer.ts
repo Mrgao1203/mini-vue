@@ -182,6 +182,10 @@ function baseCreateRenderer(options: RendererOptions): any {
       const oldVNode = oldChildren[i]
       const newVNode = normalizeVNode(newChildren[i])
       if (isSameVNodeType(oldVNode, newVNode)) {
+        console.log(
+          '❓ - file: renderer.ts:185 - baseCreateRenderer - newVNode:',
+          newVNode
+        )
         patch(oldVNode, newVNode, container, parentAnchor)
       } else {
         break
@@ -334,9 +338,17 @@ function baseCreateRenderer(options: RendererOptions): any {
     container: Element,
     anchor = null
   ) => {
+    console.log(
+      '❓ - file: renderer.ts:341 - baseCreateRenderer - initialVNode:',
+      initialVNode
+    )
     initialVNode.component = createComponentInstance(initialVNode)
 
     const instance = initialVNode.component
+    console.log(
+      '❓ - file: renderer.ts:344 - baseCreateRenderer - instance:',
+      instance
+    )
 
     setupComponent(instance)
 
@@ -355,6 +367,7 @@ function baseCreateRenderer(options: RendererOptions): any {
         if (bm) {
           bm()
         }
+
         const subTree = (instance.subTree = renderComponentRoot(instance))
         patch(null as any, subTree, container, anchor)
 
@@ -370,6 +383,7 @@ function baseCreateRenderer(options: RendererOptions): any {
         if (!next) {
           next = vnode
         }
+
         const nextTree = renderComponentRoot(instance)
         const prevTree = instance.subTree
         instance.subTree = nextTree
