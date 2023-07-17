@@ -15,5 +15,5 @@ export function baseCompile(template: string, options: any = {}) {
   )
   console.log('❓ - file: compile.ts:5 - baseCompile - ast:', ast)
 
-  return generate(ast, options)
+  return generate(ast)
 }

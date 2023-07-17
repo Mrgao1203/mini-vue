@@ -10,7 +10,7 @@ export const transformElement = (node: any, context: any) => {
 
     const { tag } = node
 
-    let vnodeTag = `${tag}`
+    let vnodeTag = `"${tag}"`
 
     let vnodeProps: any[] = []
 

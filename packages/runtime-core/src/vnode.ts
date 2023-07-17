@@ -30,6 +30,9 @@ export function createVNode(type: any, props?: any, children?: any): VNode {
 
   return createBaseVNode(type, props, children, shapeFlag)
 }
+
+export { createVNode as createElementVNode }
+
 export function createBaseVNode(
   type: any,
   props: any,

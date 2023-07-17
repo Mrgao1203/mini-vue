@@ -1,4 +1,4 @@
-import { CREATE_ELEMENT_VNODE } from './tansformElement'
+import { CREATE_ELEMENT_VNODE } from './transformElement'
 import { TransFormContext } from './transform'
 
 export const enum NodeTypes {

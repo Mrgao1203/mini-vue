@@ -2,7 +2,7 @@ export const CREATE_ELEMENT_VNODE = Symbol('createElementVNode')
 
 export const CREATE_VNODE = Symbol('createVNode')
 
-export const helperNameMap: Record<string, any> = {
-  [CREATE_ELEMENT_VNODE]: 'createELementVNode',
+export const helperNameMap: Record<symbol, any> = {
+  [CREATE_ELEMENT_VNODE]: 'createElementVNode',
   [CREATE_VNODE]: 'createVNode'
 }

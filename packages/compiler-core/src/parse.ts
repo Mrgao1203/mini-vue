@@ -16,10 +16,8 @@ function createParseContent(content: string): ParseContent {
 
 export function baseParse(content: string) {
   const context = createParseContent(content)
-  console.log('%c💢 fuck this', 'color:red', context)
 
   const children = parseChildren(context, [])
-  console.log('%c💢 fuck this', 'color:red', children)
 
   return createRoot(children)
 }
