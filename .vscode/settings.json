@@ -10,5 +10,5 @@
   "peacock.color": "#1c1dd5",
   "liveServer.settings.port": 5502,
   "typescript.tsdk": "node_modules/typescript/lib",
-  "cSpell.words": ["codegen", "deindent"]
+  "cSpell.words": ["codegen", "consquent", "deindent"]
 }

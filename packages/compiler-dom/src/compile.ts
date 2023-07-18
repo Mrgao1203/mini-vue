@@ -4,6 +4,7 @@ import { baseParse } from 'packages/compiler-core/src/parse'
 import { transform } from 'packages/compiler-core/src/transform'
 import { transformElement } from 'packages/compiler-core/src/transforms/transformElement'
 import { transformText } from 'packages/compiler-core/src/transforms/transformText'
+import { transformIf } from 'packages/compiler-core/src/transforms/vif'
 
 export function baseCompile(template: string, options: any = {}) {
   const ast = baseParse(template)
@@ -15,7 +16,7 @@ export function baseCompile(template: string, options: any = {}) {
   transform(
     ast,
     extend(options, {
-      nodeTransforms: [transformElement, transformText]
+      nodeTransforms: [transformElement, transformText, transformIf]
     })
   )
 

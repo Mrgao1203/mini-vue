@@ -57,3 +57,29 @@ export function createVNodeCall(
     children
   }
 }
+
+export function createConditionalExpression(
+  test: any,
+  consequent: any,
+  alternate: any,
+  newline = true
+) {
+  console.log(44, { alternate })
+  return {
+    type: NodeTypes.JS_CONDITIONAL_EXPRESSION,
+    test,
+    consequent,
+    alternate,
+    newline,
+    loc: {}
+  }
+}
+
+export function createCallExpression(callee: any, args: any) {
+  return {
+    type: NodeTypes.JS_CALL_EXPRESSION,
+    loc: {},
+    callee,
+    arguments: args
+  }
+}

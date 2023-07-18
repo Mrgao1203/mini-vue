@@ -2,6 +2,7 @@ import { isArray, isString } from '@vue/shared'
 import { NodeTypes } from './ast'
 import { TO_DISPLAY_STRING, helperNameMap } from './runtimeHelpers'
 import { getVNodeHelper } from './utils'
+import { TransFormContext } from './transform'
 
 const aliasHelper = (s: symbol) => `${helperNameMap[s]}:_${helperNameMap[s]}`
 
@@ -33,6 +34,10 @@ export function generate(ast: any) {
 
   if (ast.codegenNode) {
     genNode(ast.codegenNode, context)
+    console.log(
+      '❓ - file: codegen.ts:37 - push - ast.codegenNode:',
+      ast.codegenNode
+    )
   } else {
     push('null')
   }
@@ -60,15 +65,17 @@ function genFunctionPreamble(context: any) {
 }
 
 function genNode(node: any, context: any) {
-  console.log('❓ - file: codegen.ts:64 - genNode - node.type:', node.type)
-
+  console.log('❓ - file: codegen.ts:64 - genNode - node:', node)
   switch (node.type) {
+    case NodeTypes.ELEMENT:
+    case NodeTypes.IF:
+      genNode(node.codegenNode, context)
+      break
+
     case NodeTypes.VNODE_CALL:
       genVNodeCall(node, context)
       break
     case NodeTypes.TEXT:
-      console.log(node)
-
       genText(node, context)
       break
 
@@ -81,11 +88,73 @@ function genNode(node: any, context: any) {
     case NodeTypes.COMPOUND_EXPRESSION:
       genCompoundExpression(node, context)
       break
-    case NodeTypes.ELEMENT:
-      console.log(JSON.stringify(node.codegenNode))
-      genNode(node.codegenNode, context)
+    // case NodeTypes.ELEMENT:
+    //   genNode(node.codegenNode, context)
+    //   break
+    case NodeTypes.JS_CALL_EXPRESSION:
+      genCallExpression(node, context)
+      break
+    case NodeTypes.JS_CONDITIONAL_EXPRESSION:
+      genConditionalExpression(node, context)
       break
   }
+}
+
+function genCallExpression(node: any, context: any) {
+  const { push, helper } = context
+  const callee = isString(node.callee) ? node.callee : helper(node.callee)
+  push(callee + `(`)
+  genNodeList(node.arguments, context)
+  push(`)`)
+}
+
+function genConditionalExpression(node: any, context: any) {
+  const { test, alternate, newline: needNewLine, consequent } = node
+  console.log(
+    '❓ - file: codegen.ts:113 - genConditionalExpression - node:',
+    node
+  )
+
+  const { push, indent, deindent, newLine } = context
+  console.log(
+    '❓ - file: codegen.ts:122 - genConditionalExpression - context:',
+    context
+  )
+
+  if (test.type === NodeTypes.SIMPLE_EXPRESSION) {
+    genExpression(test, context)
+  }
+
+  needNewLine && indent()
+
+  context.indexLevel++
+  needNewLine || push(` `)
+  push(`? `)
+
+  genNode(consequent, context)
+
+  context.indexLevel--
+  needNewLine && newLine()
+  needNewLine || push(` `)
+
+  push(`: `)
+
+  const isNested = alternate.type === NodeTypes.JS_CONDITIONAL_EXPRESSION
+
+  if (!isNested) {
+    context.indentLevel++
+  }
+  console.log(
+    '❓ - file: codegen.ts:140 - genConditionalExpression - alternate:',
+    alternate
+  )
+  genNode(alternate, context)
+
+  if (!isNested) {
+    context.indentLevel--
+  }
+
+  needNewLine && deindent()
 }
 
 function genCompoundExpression(node: any, context: any) {
@@ -95,6 +164,10 @@ function genCompoundExpression(node: any, context: any) {
       context.push(child)
     } else {
       genNode(child, context)
+      console.log(
+        '❓ - file: codegen.ts:155 - genCompoundExpression - genNode:',
+        genNode
+      )
     }
   }
 }
@@ -104,6 +177,10 @@ function genInterpolation(node: any, context: any) {
 
   push(`${helper(TO_DISPLAY_STRING)}(`)
   genNode(node.content, context)
+  console.log(
+    '❓ - file: codegen.ts:168 - genInterpolation - node.content:',
+    node.content
+  )
   push(`)`)
 }
 
@@ -156,6 +233,7 @@ function genNodeList(nodes: any[], context: any) {
       genNodeListAsArray(node, context)
     } else {
       genNode(node, context)
+      console.log('❓ - file: codegen.ts:216 - genNodeList - node:', node)
     }
 
     if (i < nodes.length - 1) {

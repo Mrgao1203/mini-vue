@@ -8,3 +8,7 @@ export function isText(node: any) {
 export function getVNodeHelper(ssr: boolean, isComponent: boolean) {
   return ssr || isComponent ? CREATE_VNODE : CREATE_ELEMENT_VNODE
 }
+
+export function getMemoedVNodeCall(node: any) {
+  return node
+}

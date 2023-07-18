@@ -1,4 +1,4 @@
-import { isString } from '@vue/shared'
+import { isArray, isString } from '@vue/shared'
 import { NodeTypes } from './ast'
 import { isSingleElementRoot } from './hoistStatic'
 import { TO_DISPLAY_STRING } from './runtimeHelpers'
@@ -11,6 +11,7 @@ export interface TransFormContext {
   helpers: Map<symbol, number>
   helper<T extends symbol>(name: T): T
   nodeTransforms: any[]
+  replaceNode(node: any): void
 }
 
 export function createTransformContext(root: any, { nodeTransforms = [] }) {
@@ -25,6 +26,10 @@ export function createTransformContext(root: any, { nodeTransforms = [] }) {
       const count = context.helpers.get(name) || 0
       context.helpers.set(name, count + 1)
       return name
+    },
+    replaceNode(node) {
+      context.parent!.children[context.childrenIndex] = context.currentNode =
+        node
     }
   }
   return context
@@ -51,11 +56,21 @@ export function traverseNode(node: any, context: TransFormContext) {
   for (let i = 0; i < nodeTransforms.length; i++) {
     const onExit = nodeTransforms[i](node, context)
     if (onExit) {
-      exitFns.push(onExit)
+      if (isArray(onExit)) {
+        exitFns.push(...onExit)
+      } else {
+        exitFns.push(onExit)
+      }
+    }
+    if (!context.currentNode) {
+      return
+    } else {
+      node = context.currentNode
     }
   }
 
   switch (node.type) {
+    case NodeTypes.IF_BRANCH:
     case NodeTypes.ELEMENT:
     case NodeTypes.ROOT:
       traverseChildren(node, context)
@@ -63,6 +78,11 @@ export function traverseNode(node: any, context: TransFormContext) {
 
     case NodeTypes.INTERPOLATION:
       context.helper(TO_DISPLAY_STRING)
+      break
+    case NodeTypes.IF:
+      for (let i = 0; i < node.branches.length; i++) {
+        traverseNode(node.branches[i], context)
+      }
       break
   }
 
